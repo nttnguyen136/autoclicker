@@ -1,0 +1,42 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // A friendly name for this launch configuration.
+            "name": "(lldb) Launch AutoClicker",
+
+            // The debugger type. On macOS, lldb is the standard.
+            "type": "cppdbg",
+
+            // The request type. "launch" means VSCode will start the program.
+            "request": "launch",
+
+            // IMPORTANT: This variable gets the full path to the executable
+            // that CMake builds. This is much better than hardcoding the path.
+            "program": "${command:cmake.launchTargetPath}",
+
+            // Arguments to pass to the program (none in this case).
+            "args": [],
+
+            // If true, the debugger will stop at the beginning of main().
+            "stopAtEntry": false,
+
+            // The working directory when the program is launched.
+            "cwd": "${workspaceFolder}",
+
+            // Environment variables (none needed for now).
+            "environment": [],
+
+            // Don't show a console window for the debugger itself.
+            "externalConsole": false,
+
+            // The debugger engine to use.
+            "MIMode": "lldb",
+
+            // This task will be executed before the debugger starts.
+            // It runs the "Build with CMake" task we defined in tasks.json
+            // to ensure we are debugging the latest version of the code.
+            // "preLaunchTask": "Build with CMake"
+        }
+    ]
+}

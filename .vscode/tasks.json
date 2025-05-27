@@ -1,0 +1,36 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            // A friendly name for the task that appears in the command palette.
+            "label": "Build with CMake",
+            
+            // This task is a command that is executed in the shell.
+            "type": "shell",
+
+            // The actual command to execute. 
+            // This leverages the CMake Tools extension's default build command.
+            "command": "${command:cmake.build}",
+            
+            // Arguments for the command. An empty array is fine here.
+            "args": [],
+
+            // Defines this task as the default build task for the entire workspace.
+            // You can run it with Cmd+Shift+B.
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            
+            // Settings for how the task is presented in the UI.
+            "presentation": {
+                "reveal": "silent",
+                "clear": true
+            },
+
+            // This allows VSCode to parse the output from the compiler (e.g., clang)
+            // and show errors/warnings directly in the "Problems" tab.
+            "problemMatcher": "$gcc"
+        }
+    ]
+}
