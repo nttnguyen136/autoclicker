@@ -1,0 +1,40 @@
+// src/core/Application.h
+
+#pragma once // Prevents the header from being included multiple times
+#include <SDL3/SDL.h>
+#include <memory> // Required for std::unique_ptr
+
+// Include our new classes
+#include "common/AppState.h"
+#include "ui/UI.h"
+
+
+class Application {
+public:
+    // Constructor
+    Application();
+    
+    // Destructor
+    ~Application();
+
+    // The main entry point to run the application
+    int Run();
+
+private:
+    // Private helper methods to organize the code
+    bool Initialize();
+    void HandleEvents();
+    void Update();
+    void Render();
+    void Cleanup();
+
+private:
+    // Member variables
+    SDL_Window* m_window;
+    SDL_GLContext m_glContext;
+    bool m_isRunning;
+
+
+    AppState m_appState; // Holds the shared state
+    std::unique_ptr<UI> m_ui; // Pointer to our UI manager class
+};
