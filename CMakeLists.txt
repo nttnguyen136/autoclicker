@@ -45,6 +45,20 @@ add_executable(AutoClicker
 
 target_include_directories(AutoClicker PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
+
+# --- PLATFORM-SPECIFIC BUILD LOGIC ---
+if(APPLE)
+    # Add macOS-specific source files to the executable
+    target_sources(AutoClicker PRIVATE
+        src/platform/macos/MacOSPlatform.cpp
+    )
+
+    # Link against required macOS frameworks
+    target_link_libraries(AutoClicker PRIVATE
+        "-framework ApplicationServices"
+    )
+endif()
+
 target_link_libraries(AutoClicker PRIVATE
     imgui
     SDL3::SDL3

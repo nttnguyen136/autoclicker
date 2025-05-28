@@ -8,12 +8,15 @@
 #include "common/AppState.h"
 #include "ui/UI.h"
 
+// Forward declare the interface to avoid including its header here
+class IPlatform;
 
-class Application {
+class Application
+{
 public:
     // Constructor
     Application();
-    
+
     // Destructor
     ~Application();
 
@@ -30,11 +33,11 @@ private:
 
 private:
     // Member variables
-    SDL_Window* m_window;
+    SDL_Window *m_window;
     SDL_GLContext m_glContext;
     bool m_isRunning;
 
-
-    AppState m_appState; // Holds the shared state
-    std::unique_ptr<UI> m_ui; // Pointer to our UI manager class
+    AppState m_appState;                   // Holds the shared state
+    std::unique_ptr<UI> m_ui;              // Pointer to our UI manager class
+    std::unique_ptr<IPlatform> m_platform; // Pointer to our platform implementation
 };

@@ -2,6 +2,14 @@
 
 #include "Application.h"
 #include <iostream>
+#include "platform/IPlatform.h"
+
+// --- ADD PLATFORM-SPECIFIC INCLUDES ---
+#if defined(__APPLE__)
+#include "platform/macos/MacOSPlatform.h"
+#elif defined(_WIN32)
+// #include "platform/windows/WindowsPlatform.h" // For future use
+#endif
 
 // Include third-party libraries
 #include <SDL3/SDL.h>
@@ -13,7 +21,7 @@
 // Constructor: Initialize member variables
 
 Application::Application()
-    : m_window(nullptr), m_glContext(nullptr), m_isRunning(false), m_ui(nullptr) {} // Initialize m_ui to nullptr
+    : m_window(nullptr), m_glContext(nullptr), m_isRunning(false), m_ui(nullptr), m_platform(nullptr) {} // Initialize m_ui to nullptr
 
 // Destructor: Call the cleanup function
 Application::~Application()
@@ -79,6 +87,15 @@ bool Application::Initialize()
     ImGui_ImplOpenGL3_Init("#version 330");
 
     m_ui = std::make_unique<UI>(m_appState);
+#if defined(__APPLE__)
+    m_platform = std::make_unique<MacOSPlatform>();
+    std::cout << "Running on macOS, created MacOSPlatform." << std::endl;
+#elif defined(_WIN32)
+    // m_platform = std::make_unique<WindowsPlatform>(); // For future use
+#else
+    std::cout << "Running on an unsupported platform." << std::endl;
+    // You might want to return false here if the platform is required
+#endif
 
     std::cout << "Initialization successful." << std::endl;
     return true;
@@ -105,7 +122,16 @@ void Application::HandleEvents()
 // Update logic (for future use)
 void Application::Update()
 {
-    // This is where game logic, physics, etc. would go.
+    if (m_appState.testClickRequested)
+    {
+        if (m_platform)
+        {
+            // If a click was requested, tell the platform object to perform it.
+            m_platform->SimulateMouseClick();
+        }
+        // Reset the flag so we don't click on every frame.
+        m_appState.testClickRequested = false;
+    }
 }
 
 // Rendering logic
@@ -115,7 +141,8 @@ void Application::Render()
     ImGui_ImplSDL3_NewFrame();
     ImGui::NewFrame();
 
-    if (m_ui) {
+    if (m_ui)
+    {
         m_ui->Render();
     }
 
