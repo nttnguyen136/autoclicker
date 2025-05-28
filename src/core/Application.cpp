@@ -64,7 +64,7 @@ bool Application::Initialize()
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-    m_window = SDL_CreateWindow("AutoClicker - Gemini AI", 800, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+    m_window = SDL_CreateWindow("AutoClicker - Gemini AI", 800, 600, SDL_WINDOW_OPENGL);
     if (m_window == nullptr)
     {
         SDL_Log("Error: SDL_CreateWindow failed: %s\n", SDL_GetError());
@@ -81,7 +81,10 @@ bool Application::Initialize()
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-    ImGui::StyleColorsDark();
+    // ImGui::StyleColorsDark();
+    // ImGui::StyleColorsClassic(); // Use classic style for better visibility
+    ImGui::StyleColorsLight(); // Use light style for better visibility
+    // ImGui::StyleColorsDark();    // Use dark style for better visibility
 
     ImGui_ImplSDL3_InitForOpenGL(m_window, m_glContext);
     ImGui_ImplOpenGL3_Init("#version 330");
@@ -122,15 +125,20 @@ void Application::HandleEvents()
 // Update logic (for future use)
 void Application::Update()
 {
-    if (m_appState.testClickRequested)
+    // if (m_appState.testClickRequested)
+    // {
+    //     if (m_platform)
+    //     {
+    //         // If a click was requested, tell the platform object to perform it.
+    //         m_platform->SimulateMouseClick();
+    //     }
+    //     // Reset the flag so we don't click on every frame.
+    //     m_appState.testClickRequested = false;
+    // }
+
+    if (m_appState.quitRequested)
     {
-        if (m_platform)
-        {
-            // If a click was requested, tell the platform object to perform it.
-            m_platform->SimulateMouseClick();
-        }
-        // Reset the flag so we don't click on every frame.
-        m_appState.testClickRequested = false;
+        m_isRunning = false;
     }
 }
 
