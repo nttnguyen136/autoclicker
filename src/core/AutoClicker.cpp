@@ -2,6 +2,7 @@
 #include "AutoClicker.h"
 #include <iostream>
 #include <vector>
+#include "common/AppUntils.h"
 
 AutoClicker::AutoClicker(AppState &appState, IPlatform &platform)
     : m_appState(appState), m_platform(platform) {}
@@ -45,25 +46,16 @@ void AutoClicker::WorkerLoop()
     while (m_appState.executionState.load() == ExecutionState::Running)
     {
         // --- Thread-Safe Data Copy ---
-        std::vector<Action> actions_copy;
-        {
-            // Lock the mutex to safely access the shared actions vector
-            std::lock_guard<std::mutex> lock(m_appState.actionsMutex);
+        std::vector<Action> vActions = GetActionsCopy(m_appState);
 
-            // Make a copy of the actions. This is a critical pattern!
-            // We do this so we can release the lock quickly and not block the UI thread
-            // while we are performing the long-running actions (with delays).
-            actions_copy = m_appState.actions;
-        } // The lock is automatically released here
-
-        if (actions_copy.empty())
+        if (vActions.empty())
         {
             std::cout << "Action list is empty, stopping." << std::endl;
             break; // Exit the loop if there's nothing to do
         }
 
         // Now, iterate over the *copy* of the actions
-        for (const auto &action : actions_copy)
+        for (const auto &action : vActions)
         {
             // Check if a stop was requested during the loop
             if (m_appState.executionState.load() != ExecutionState::Running)

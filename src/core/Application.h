@@ -38,8 +38,8 @@ private:
     SDL_GLContext m_glContext;
     bool m_isRunning;
 
-    AppState m_appState;                   // Holds the shared state
-    std::unique_ptr<UI> m_ui;              // Pointer to our UI manager class
-    std::unique_ptr<IPlatform> m_platform; // Pointer to our platform implementation
-    std::unique_ptr<AutoClicker> m_autoclicker;
+    AppState m_appState;                        // Holds the shared state
+    std::unique_ptr<UI> m_ui;                   // Pointer to our UI manager class
+    std::unique_ptr<IPlatform> m_platform;      // Pointer to our platform implementation
+    std::unique_ptr<AutoClicker> m_autoclicker; // Pointer to the AutoClicker class that handles the clicking logic
 };
