@@ -6,6 +6,7 @@
 
 // Include our new classes
 #include "common/AppState.h"
+#include "core/AutoClicker.h"
 #include "ui/UI.h"
 
 // Forward declare the interface to avoid including its header here
@@ -40,4 +41,5 @@ private:
     AppState m_appState;                   // Holds the shared state
     std::unique_ptr<UI> m_ui;              // Pointer to our UI manager class
     std::unique_ptr<IPlatform> m_platform; // Pointer to our platform implementation
+    std::unique_ptr<AutoClicker> m_autoclicker;
 };

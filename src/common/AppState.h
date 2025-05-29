@@ -3,56 +3,53 @@
 
 #include <vector>
 #include <string>
+#include <mutex>  // Required for std::mutex
+#include <atomic> // Required for std::atomic
 
-// Enum to represent the type of mouse action
+// Enum to represent the execution state of the script
+enum class ExecutionState
+{
+    Stopped,
+    Running,
+    Paused
+};
+
+// Enum for mouse action types
 enum class ActionType
 {
     LeftClick,
     RightClick,
-    DoubleClick,
-    ScrollUp,
-    ScrollDown
-    // ... add more types as needed
+    DoubleClick
 };
 
-// A struct to hold all data for a single action in our list
+// Struct for a single action
 struct Action
 {
     ActionType type = ActionType::LeftClick;
     int x = 0;
     int y = 0;
-    bool cursorBack = false;
     int delayMs = 100;
-    int repeatCount = 1;
     std::string comment;
 };
 
-// This struct holds the entire state of our application
+// The new, simplified, thread-safe AppState
 struct AppState
 {
-    // The list of actions to be executed
+    // --- Data Model ---
+    // The list of actions. This will be accessed by both threads.
     std::vector<Action> actions;
 
-    // The index of the currently selected action in the list (-1 means none selected)
+    // The mutex to protect the 'actions' vector from data races.
+    // Any thread that wants to read or write to 'actions' MUST lock this mutex first.
+    std::mutex actionsMutex;
+
+    // --- High-Level Control State ---
+    // The current state of the script execution. std::atomic makes it thread-safe for simple reads/writes.
+    std::atomic<ExecutionState> executionState = ExecutionState::Stopped;
+
+    // --- UI-related state ---
+    // These are only accessed by the UI thread, so they don't need protection.
     int selectedActionIndex = -1;
-
-    // A temporary Action object used for the "Add/Edit" panel
-    Action currentEditAction;
-
-    // Global execution state
-    bool isExecutingScript = false;
-    int executionRepeatCount = 1;
-
-    // State flags for UI interaction
-    bool isPickingCoordinate = false;
+    Action currentEditAction; // For the Add/Edit panel
     bool quitRequested = false;
-
-    // Hotkey configurations (as strings for now)
-    std::string hotkeyAddPosition = "F6";
-    std::string hotkeyGetPosition = "None";
-    std::string hotkeyStartStop = "None";
-
-    // Real-time data for the status bar
-    int currentMouseX = 0;
-    int currentMouseY = 0;
 };

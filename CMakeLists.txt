@@ -40,6 +40,7 @@ target_include_directories(imgui PUBLIC
 add_executable(AutoClicker 
     src/main.cpp
     src/core/Application.cpp
+    src/core/AutoClicker.cpp
     src/ui/UI.cpp
 )
 

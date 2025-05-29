@@ -16,10 +16,6 @@ const char *ActionTypeToString(ActionType type)
         return "Right Click";
     case ActionType::DoubleClick:
         return "Double Click";
-    case ActionType::ScrollUp:
-        return "Scroll Up";
-    case ActionType::ScrollDown:
-        return "Scroll Down";
     default:
         return "Unknown";
     }
@@ -78,7 +74,6 @@ void UI::Render()
     ImGui::SameLine();
     if (ImGui::Button("Pick"))
     {
-        m_appState.isPickingCoordinate = true; // Set a flag for the Application to handle
     }
 
     // Action Type Dropdown (Combo box)
@@ -103,7 +98,7 @@ void UI::Render()
     }
 
     // Other controls
-    ImGui::Checkbox("Cursor Back", &m_appState.currentEditAction.cursorBack);
+    // ImGui::Checkbox("Cursor Back", &m_appState.currentEditAction.cursorBack);
     ImGui::SameLine();
     ImGui::SetNextItemWidth(100);
     ImGui::InputInt("Delay before Action", &m_appState.currentEditAction.delayMs);
@@ -180,12 +175,12 @@ void UI::Render()
                 ImGui::Text("%d", m_appState.actions[i].x);
                 ImGui::TableNextColumn();
                 ImGui::Text("%d", m_appState.actions[i].y);
-                ImGui::TableNextColumn();
-                ImGui::Text("%s", m_appState.actions[i].cursorBack ? "Yes" : "No");
+                // ImGui::TableNextColumn();
+                // ImGui::Text("%s", m_appState.actions[i].cursorBack ? "Yes" : "No");
                 ImGui::TableNextColumn();
                 ImGui::Text("%d", m_appState.actions[i].delayMs);
-                ImGui::TableNextColumn();
-                ImGui::Text("%d", m_appState.actions[i].repeatCount);
+                // ImGui::TableNextColumn();
+                // ImGui::Text("%d", m_appState.actions[i].repeatCount);
             }
             ImGui::EndTable();
         }
@@ -215,7 +210,8 @@ void UI::Render()
 
     // --- 4. Status Bar ---
     ImGui::Separator();
-    ImGui::Text("Currently Mouse Cursor At X = %d, Y = %d", m_appState.currentMouseX, m_appState.currentMouseY);
+    // ImGui::Text("Currently Mouse Cursor At X = %d, Y = %d", m_appState.currentMouseX, m_appState.currentMouseY);
+    ImGui::Text("Currently Mouse Cursor At X = %d, Y = %d", 0, 0);
 
     ImGui::End(); // End of the main window
 

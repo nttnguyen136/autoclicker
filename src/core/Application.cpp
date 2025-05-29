@@ -21,7 +21,7 @@
 // Constructor: Initialize member variables
 
 Application::Application()
-    : m_window(nullptr), m_glContext(nullptr), m_isRunning(false), m_ui(nullptr), m_platform(nullptr) {} // Initialize m_ui to nullptr
+    : m_window(nullptr), m_glContext(nullptr), m_isRunning(false), m_ui(nullptr), m_platform(nullptr), m_autoclicker(nullptr) {}
 
 // Destructor: Call the cleanup function
 Application::~Application()
@@ -100,6 +100,14 @@ bool Application::Initialize()
     // You might want to return false here if the platform is required
 #endif
 
+    if (!m_platform)
+    {
+        std::cerr << "Platform not supported or failed to initialize!" << std::endl;
+        return false;
+    }
+
+    m_autoclicker = std::make_unique<AutoClicker>(m_appState, *m_platform);
+
     std::cout << "Initialization successful." << std::endl;
     return true;
 }
@@ -125,16 +133,14 @@ void Application::HandleEvents()
 // Update logic (for future use)
 void Application::Update()
 {
-    // if (m_appState.testClickRequested)
-    // {
-    //     if (m_platform)
-    //     {
-    //         // If a click was requested, tell the platform object to perform it.
-    //         m_platform->SimulateMouseClick();
-    //     }
-    //     // Reset the flag so we don't click on every frame.
-    //     m_appState.testClickRequested = false;
-    // }
+    if (m_appState.executionState.load() == ExecutionState::Running)
+    {
+        m_autoclicker->Start();
+    }
+    else
+    {
+        m_autoclicker->Stop();
+    }
 
     if (m_appState.quitRequested)
     {
