@@ -72,8 +72,18 @@ void UI::Render()
     ImGui::SetNextItemWidth(100);
     ImGui::InputInt("Y-Coordinate", &m_appState.currentEditAction.y);
     ImGui::SameLine();
-    if (ImGui::Button("Pick"))
+    if (ImGui::Button(m_appState.isPickingCoordinate ? "Picking... (Click Anywhere)" : "Pick Coordinate"))
     {
+        if (m_appState.isPickingCoordinate)
+        {
+            // If already picking, cancel it
+            m_appState.isPickingCoordinate = false;
+        }
+        else
+        {
+            // Start picking mode
+            m_appState.isPickingCoordinate = true;
+        }
     }
 
     // Action Type Dropdown (Combo box)
@@ -210,13 +220,7 @@ void UI::Render()
 
     // --- 4. Status Bar ---
     ImGui::Separator();
-    // ImGui::Text("Currently Mouse Cursor At X = %d, Y = %d", m_appState.currentMouseX, m_appState.currentMouseY);
-    ImGui::Text("Currently Mouse Cursor At X = %d, Y = %d", 0, 0);
+    ImGui::Text("Currently Mouse Cursor At X = %d, Y = %d", m_appState.currentMouseX, m_appState.currentMouseY);
 
     ImGui::End(); // End of the main window
-
-    ImGui::Begin("Theme Customizer");
-    // This function shows a powerful tool to edit all colors, sizes, rounding, etc.
-    ImGui::ShowStyleEditor();
-    ImGui::End();
 }

@@ -32,11 +32,14 @@ private:
     void Render();
     void Cleanup();
 
+    void HandlePickingMode();
+
 private:
     // Member variables
     SDL_Window *m_window;
     SDL_GLContext m_glContext;
     bool m_isRunning;
+    bool m_isGlobalListenerActive = false;
 
     AppState m_appState;                        // Holds the shared state
     std::unique_ptr<UI> m_ui;                   // Pointer to our UI manager class

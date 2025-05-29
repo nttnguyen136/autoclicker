@@ -142,6 +142,22 @@ void Application::Update()
         m_autoclicker->Stop();
     }
 
+    // --- LOGIC FOR "PICK COORDINATE" ---
+    if (m_appState.isPickingCoordinate)
+    {
+        HandlePickingMode();
+    }
+    else
+    {
+        // If we are NOT in picking mode, and the listener IS active, stop it
+        if (m_platform && m_isGlobalListenerActive)
+        {
+            m_platform->StopGlobalMouseListener();
+            m_isGlobalListenerActive = false;
+            std::cout << "Application: Stopped global mouse listener." << std::endl;
+        }
+    }
+
     if (m_appState.quitRequested)
     {
         m_isRunning = false;
@@ -189,4 +205,43 @@ void Application::Cleanup()
     }
 
     SDL_Quit();
+}
+
+void Application::HandlePickingMode()
+{
+
+    // If we are in picking mode, and the listener hasn't been started yet
+    if (m_platform && !m_isGlobalListenerActive)
+    { // Add m_isGlobalListenerActive to Application.h
+        bool success = m_platform->StartGlobalMouseListener(
+            // This is a C++ lambda function that will be our callback
+            [this](int x, int y)
+            {
+                // This code will run on the Event Tap thread!
+                // Be careful with thread safety if modifying shared AppState directly.
+                // For this simple case, we are updating coordinates and a flag.
+
+                std::cout << "Global click detected at: " << x << ", " << y << std::endl;
+
+                // Update AppState (make sure these assignments are safe or post to main thread)
+                // For simplicity now, we'll assign directly. Consider a thread-safe queue for complex updates.
+                m_appState.currentEditAction.x = x;
+                m_appState.currentEditAction.y = y;
+
+                // IMPORTANT: Stop listening immediately after one click and exit picking mode
+                m_appState.isPickingCoordinate = false;
+                // The StopGlobalMouseListener will be called in the next Update() frame
+                // because isPickingCoordinate is now false.
+            });
+        if (success)
+        {
+            m_isGlobalListenerActive = true;
+            std::cout << "Application: Started global mouse listener for picking." << std::endl;
+        }
+        else
+        {
+            std::cout << "Application: Failed to start global mouse listener." << std::endl;
+            m_appState.isPickingCoordinate = false; // Reset flag if listener failed
+        }
+    }
 }

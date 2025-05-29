@@ -52,4 +52,15 @@ struct AppState
     int selectedActionIndex = -1;
     Action currentEditAction; // For the Add/Edit panel
     bool quitRequested = false;
+
+    bool isPickingCoordinate = false;
+
+    // Hotkey configurations (as strings for now)
+    std::string hotkeyAddPosition = "F6";
+    std::string hotkeyGetPosition = "None";
+    std::string hotkeyStartStop = "None";
+
+    // Real-time data for the status bar
+    int currentMouseX = 0;
+    int currentMouseY = 0;
 };
