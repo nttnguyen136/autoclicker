@@ -4,7 +4,7 @@
 
 using json = nlohmann::json;
 
-namespace
+namespace Common
 {
 
     // Helper to convert ActionType to string
@@ -86,10 +86,10 @@ namespace
 
 } // anonymous namespace
 
-namespace ScriptIO
+namespace Common
 {
 
-    bool SaveToFile(const Script &script, const std::string &filename)
+    bool SaveScript(const Script &script, const std::string &filename)
     {
         json j;
         to_json(j, script);
@@ -100,7 +100,7 @@ namespace ScriptIO
         return true;
     }
 
-    bool LoadFromFile(Script &script, const std::string &filename)
+    bool LoadScript(Script &script, const std::string &filename)
     {
         std::ifstream ifs(filename);
         if (!ifs)

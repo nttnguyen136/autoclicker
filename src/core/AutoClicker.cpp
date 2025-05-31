@@ -48,7 +48,7 @@ void AutoClicker::WorkerLoop()
     while (m_appState.executionState.load() == ExecutionState::Running)
     {
         // --- Thread-Safe Data Copy ---
-        std::vector<Action> vActions = GetActionsCopy(m_appState);
+        std::vector<Action> vActions = Common::GetActionsCopy(m_appState);
 
         if (vActions.empty())
         {

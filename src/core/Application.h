@@ -1,33 +1,24 @@
-// src/core/Application.h
-
-#pragma once // Prevents the header from being included multiple times
+#pragma once
 #include <SDL3/SDL.h>
-#include <memory> // Required for std::unique_ptr
+#include <memory>
 
-// Include our new classes
 #include "common/AppState.h"
 #include "common/Action.h"
 #include "common/Script.h"
 #include "core/AutoClicker.h"
 #include "ui/UI.h"
 
-// Forward declare the interface to avoid including its header here
 class IPlatform;
 
 class Application
 {
 public:
-    // Constructor
     Application();
-
-    // Destructor
     ~Application();
 
-    // The main entry point to run the application
     int Run();
 
 private:
-    // Private helper methods to organize the code
     bool Initialize();
     void HandleEvents();
     void Update();
@@ -36,7 +27,6 @@ private:
 
     void HandlePickingMode();
 
-    // Script functions
     void StartRecording();
     void StopRecording(const std::string &name);
     bool ImportScript(const std::string &filename);
@@ -46,7 +36,6 @@ private:
     void SetCurrentScript(const Script &script) { m_currentScript = script; }
 
 private:
-    // Member variables
     SDL_Window *m_window;
     SDL_GLContext m_glContext;
     bool m_isRunning;

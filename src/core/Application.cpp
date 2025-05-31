@@ -264,7 +264,7 @@ void Application::StopRecording(const std::string &name)
 bool Application::ImportScript(const std::string &filename)
 {
     Script script;
-    if (ScriptIO::LoadFromFile(script, filename))
+    if (Common::LoadScript(script, filename))
     {
         m_currentScript = script;
         std::cout << "Script imported: " << filename << "\n";
@@ -276,7 +276,7 @@ bool Application::ImportScript(const std::string &filename)
 
 bool Application::ExportScript(const std::string &filename)
 {
-    if (ScriptIO::SaveToFile(m_currentScript, filename))
+    if (Common::SaveScript(m_currentScript, filename))
     {
         std::cout << "Script exported: " << filename << "\n";
         return true;

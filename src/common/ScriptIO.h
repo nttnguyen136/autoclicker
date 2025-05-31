@@ -2,11 +2,11 @@
 #include "Script.h"
 #include <string>
 
-namespace ScriptIO
+namespace Common
 {
     // Save script to JSON file. Return true if success.
-    bool SaveToFile(const Script &script, const std::string &filename);
+    bool SaveScript(const Script &script, const std::string &filename);
 
     // Load script from JSON file. Return true if success.
-    bool LoadFromFile(Script &script, const std::string &filename);
+    bool LoadScript(Script &script, const std::string &filename);
 }

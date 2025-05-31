@@ -1,4 +1,3 @@
-// src/common/AppState.h
 #pragma once
 
 #include <vector>

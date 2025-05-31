@@ -1,4 +1,3 @@
-// src/core/AutoClicker.h
 #pragma once
 #include <thread>
 #include "common/AppState.h"
@@ -7,16 +6,13 @@
 class AutoClicker
 {
 public:
-    // Constructor takes references to the shared state and platform interface
     AutoClicker(AppState &appState, IPlatform &platform);
     ~AutoClicker();
 
-    // Public methods to control the worker thread
     void Start();
     void Stop();
 
 private:
-    // The main function that the worker thread will execute
     void WorkerLoop();
 
 private:
