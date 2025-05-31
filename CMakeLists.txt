@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
+add_subdirectory(extern/nlohmann_json)
 add_subdirectory(extern/sdl)
 
 set(IMGUI_SOURCES
@@ -36,12 +37,12 @@ target_include_directories(imgui PUBLIC
 )
 
 
-
 add_executable(AutoClicker 
     src/main.cpp
     src/core/Application.cpp
     src/core/AutoClicker.cpp
     src/ui/UI.cpp
+    src/common/ScriptIO.cpp
 )
 
 target_include_directories(AutoClicker PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
@@ -63,6 +64,7 @@ endif()
 target_link_libraries(AutoClicker PRIVATE
     imgui
     SDL3::SDL3
+    nlohmann_json::nlohmann_json
     "-framework OpenGL"
     "-framework CoreFoundation"
 )

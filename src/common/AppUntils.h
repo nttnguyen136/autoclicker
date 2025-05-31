@@ -2,6 +2,7 @@
 
 #include <vector>
 #include "AppState.h"
+#include "Action.h"
 
 std::vector<Action> GetActionsCopy(AppState &appState)
 {

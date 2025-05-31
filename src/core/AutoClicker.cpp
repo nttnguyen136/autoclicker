@@ -2,7 +2,9 @@
 #include "AutoClicker.h"
 #include <iostream>
 #include <vector>
+
 #include "common/AppUntils.h"
+#include "common/Action.h"
 
 AutoClicker::AutoClicker(AppState &appState, IPlatform &platform)
     : m_appState(appState), m_platform(platform) {}

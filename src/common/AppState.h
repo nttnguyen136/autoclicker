@@ -6,30 +6,14 @@
 #include <mutex>  // Required for std::mutex
 #include <atomic> // Required for std::atomic
 
+#include "Action.h"
+
 // Enum to represent the execution state of the script
 enum class ExecutionState
 {
     Stopped,
     Running,
     Paused
-};
-
-// Enum for mouse action types
-enum class ActionType
-{
-    LeftClick,
-    RightClick,
-    DoubleClick
-};
-
-// Struct for a single action
-struct Action
-{
-    ActionType type = ActionType::LeftClick;
-    int x = 0;
-    int y = 0;
-    int delayMs = 100;
-    std::string comment;
 };
 
 // The new, simplified, thread-safe AppState

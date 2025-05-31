@@ -3,6 +3,7 @@
 #include "Application.h"
 #include <iostream>
 #include "platform/IPlatform.h"
+#include "common/ScriptIO.h"
 
 // --- ADD PLATFORM-SPECIFIC INCLUDES ---
 #if defined(__APPLE__)
@@ -244,4 +245,42 @@ void Application::HandlePickingMode()
             m_appState.isPickingCoordinate = false; // Reset flag if listener failed
         }
     }
+}
+
+void Application::StartRecording()
+{
+    m_currentScript = Script(); // Reset script
+    m_isRecording = true;
+    std::cout << "Recording started.\n";
+}
+
+void Application::StopRecording(const std::string &name)
+{
+    m_currentScript.name = name;
+    m_isRecording = false;
+    std::cout << "Recording stopped. Script name: " << name << "\n";
+}
+
+bool Application::ImportScript(const std::string &filename)
+{
+    Script script;
+    if (ScriptIO::LoadFromFile(script, filename))
+    {
+        m_currentScript = script;
+        std::cout << "Script imported: " << filename << "\n";
+        return true;
+    }
+    std::cout << "Failed to import script: " << filename << "\n";
+    return false;
+}
+
+bool Application::ExportScript(const std::string &filename)
+{
+    if (ScriptIO::SaveToFile(m_currentScript, filename))
+    {
+        std::cout << "Script exported: " << filename << "\n";
+        return true;
+    }
+    std::cout << "Failed to export script: " << filename << "\n";
+    return false;
 }
