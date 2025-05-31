@@ -1,5 +1,3 @@
-// src/core/Application.cpp
-
 #include "Application.h"
 #include <iostream>
 #include "platform/IPlatform.h"
@@ -82,10 +80,7 @@ bool Application::Initialize()
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-    // ImGui::StyleColorsDark();
-    // ImGui::StyleColorsClassic(); // Use classic style for better visibility
     ImGui::StyleColorsLight(); // Use light style for better visibility
-    // ImGui::StyleColorsDark();    // Use dark style for better visibility
 
     ImGui_ImplSDL3_InitForOpenGL(m_window, m_glContext);
     ImGui_ImplOpenGL3_Init("#version 330");

@@ -6,7 +6,7 @@
 struct Script
 {
     std::string name;
-    std::vector<Action> actions;
+    std::vector<Common::Action> actions;
 
     Script() : name("Unnamed Script") {}
 };

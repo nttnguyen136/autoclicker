@@ -20,7 +20,7 @@ struct AppState
 {
     // --- Data Model ---
     // The list of actions. This will be accessed by both threads.
-    std::vector<Action> actions;
+    std::vector<Common::Action> actions;
 
     // The mutex to protect the 'actions' vector from data races.
     // Any thread that wants to read or write to 'actions' MUST lock this mutex first.
@@ -33,7 +33,7 @@ struct AppState
     // --- UI-related state ---
     // These are only accessed by the UI thread, so they don't need protection.
     int selectedActionIndex = -1;
-    Action currentEditAction; // For the Add/Edit panel
+    Common::Action currentEditAction; // For the Add/Edit panel
     bool quitRequested = false;
 
     bool isPickingCoordinate = false;

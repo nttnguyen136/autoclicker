@@ -2,24 +2,9 @@
 
 #include "UI.h"
 #include "common/AppState.h"
+#include "common/Action.h"
 #include "imgui.h"
 #include <vector> // Required for std::vector
-
-// Helper function to convert ActionType enum to a string for display
-const char *ActionTypeToString(ActionType type)
-{
-    switch (type)
-    {
-    case ActionType::LeftClick:
-        return "Left Click";
-    case ActionType::RightClick:
-        return "Right Click";
-    case ActionType::DoubleClick:
-        return "Double Click";
-    default:
-        return "Unknown";
-    }
-}
 
 // Constructor initializes the state reference
 UI::UI(AppState &appState) : m_appState(appState) {}
@@ -87,15 +72,16 @@ void UI::Render()
     }
 
     // Action Type Dropdown (Combo box)
-    const char *currentActionTypeStr = ActionTypeToString(m_appState.currentEditAction.type);
+    const std::string currentActionTypeStr = ActionTypeToString(m_appState.currentEditAction.type);
     ImGui::SetNextItemWidth(210);
-    if (ImGui::BeginCombo("Action Type", currentActionTypeStr))
+    if (ImGui::BeginCombo("Action Type", currentActionTypeStr.c_str()))
     {
         for (int i = 0; i < 5; ++i)
         {
-            ActionType type = static_cast<ActionType>(i);
+            Common::ActionType type = static_cast<Common::ActionType>(i);
             const bool is_selected = (m_appState.currentEditAction.type == type);
-            if (ImGui::Selectable(ActionTypeToString(type), is_selected))
+            const std::string typeName = ActionTypeToString(type);
+            if (ImGui::Selectable(typeName.c_str(), is_selected))
             {
                 m_appState.currentEditAction.type = type;
             }
@@ -180,7 +166,8 @@ void UI::Render()
 
                 // The rest of the columns
                 ImGui::TableNextColumn();
-                ImGui::Text("%s", ActionTypeToString(m_appState.actions[i].type));
+                const std::string actionTypeStr = ActionTypeToString(m_appState.actions[i].type);
+                ImGui::Text("%s", actionTypeStr.c_str());
                 ImGui::TableNextColumn();
                 ImGui::Text("%d", m_appState.actions[i].x);
                 ImGui::TableNextColumn();
