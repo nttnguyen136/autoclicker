@@ -4,14 +4,12 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 
-using json = nlohmann::json;
-
 namespace Common
 {
 
     bool SaveScript(const Script &script, const std::string &filename)
     {
-        json j;
+        nlohmann::json j;
         Common::to_json(j, script);
         std::ofstream ofs(filename);
         if (!ofs)
@@ -25,7 +23,7 @@ namespace Common
         std::ifstream ifs(filename);
         if (!ifs)
             return false;
-        json j;
+        nlohmann::json j;
         ifs >> j;
         from_json(j, script);
         return true;

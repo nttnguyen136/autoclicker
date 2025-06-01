@@ -1,18 +1,22 @@
-// src/ui/UI.h
 #pragma once
 
-// Forward declare AppState to avoid including the header here
 struct AppState;
 
-class UI {
+class UI
+{
 public:
-    // Constructor takes a reference to the shared application state
-    UI(AppState& appState);
-
-    // The main function to draw all UI elements
+    UI(AppState &appState);
     void Render();
 
 private:
-    // A reference to the application's shared state
-    AppState& m_appState;
+    AppState &m_appState;
+
+    // Draws the top menu bar with file operations.
+    void RenderMenuBar();
+
+    // Renders the main content view of the application.
+    void RenderMainView();
+
+    // Displays the status bar with application information.
+    void RenderStatusBar();
 };

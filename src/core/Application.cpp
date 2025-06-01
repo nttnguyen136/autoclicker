@@ -63,7 +63,7 @@ bool Application::Initialize()
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-    m_window = SDL_CreateWindow("AutoClicker - Gemini AI", 800, 600, SDL_WINDOW_OPENGL);
+    m_window = SDL_CreateWindow("AutoClicker - Gemini AI", 800, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     if (m_window == nullptr)
     {
         SDL_Log("Error: SDL_CreateWindow failed: %s\n", SDL_GetError());
